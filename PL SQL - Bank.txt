@@ -1,0 +1,813 @@
+--Structure
+create table employees_tbl
+(
+id number GENERATED as IDENTITY PRIMARY KEY,
+first_name varchar2(105) not null,
+last_name varchar2(105) not null,
+addl_name varchar2(105),
+address varchar2(255) not null,
+creation_date date default sysdate,
+phone varchar2(30) not null,
+email varchar2(30) not null,
+job_description varchar2(30) not null,
+department number,
+manager_id number,
+CONSTRAINT FK_EMP_DEP FOREIGN KEY (department)
+REFERENCES departments_tbl(id),
+CONSTRAINT FK_EMP_MNG FOREIGN KEY (manager_id)
+REFERENCES managers_tbl(id)
+);
+
+SELECT * FROM employees_tbl
+--
+--INSERT INTO EMPLOYEES_TBL
+--(first_name,last_name,addl_name,address,
+--phone,email,job_description,department,manager_id)
+--VALUES ('Petar', 'Angelov', 'Petrov', 'London',
+--'0456123752','pepopetrov@abv.bg','Data Analyst', 3, 2);
+--
+--INSERT INTO EMPLOYEES_TBL
+--(first_name,last_name,addl_name,address,
+--phone,email,job_description,department,manager_id)
+--VALUES ('Martin', 'Aleksandrov', 'Ivanov', 'Bulgaria',
+--'01452168792','martiialeksandrov@abv.bg','Corporate Banking Analyst', 3, 2);
+--
+--INSERT INTO EMPLOYEES_TBL
+--(first_name,last_name,addl_name,address,
+--phone,email,job_description)
+--VALUES ('Antoan', 'Stefanov', 'Kamenov', 'Milano',
+--'0564286542','tonkostefkov@abv.bg','CEO');
+--
+--INSERT INTO EMPLOYEES_TBL
+--(first_name,last_name,addl_name,address,
+--phone,email,job_description,department,manager_id)
+--VALUES ('Roni', 'Kalinov', 'Damqnov', 'Hamburg',
+--'0456155552','ronik@abv.bg','Cust Experience Coordinator', 1, 1);
+--
+--INSERT INTO EMPLOYEES_TBL
+--(first_name,last_name,addl_name,address,
+--phone,email,job_description,department,manager_id)
+--VALUES ('Sonq', 'Radeva', 'Plamenova', 'Pernik',
+--'0456663752','radevas@abv.bg','Chat Agent', 1, 3);
+--
+--INSERT INTO EMPLOYEES_TBL
+--(first_name,last_name,addl_name,address,
+--phone,email,job_description,department,manager_id)
+--VALUES ('Plamena', 'Angelova', 'Petrova', 'Plovdiv',
+--'0456177752','petrovaplami@abv.bg','Account Opening Specialist', 1, 1);
+--
+--
+--INSERT INTO EMPLOYEES_TBL
+--(first_name,last_name,addl_name,address,
+--phone,email,job_description,department,manager_id)
+--VALUES ('Milena', 'Toteva', 'Krasimirova', 'Sofia',
+--'0456177752','petrovaplami@abv.bg','Social Media Specialist', 2, 1);
+
+
+
+create table departments_tbl
+(
+id number GENERATED as IDENTITY PRIMARY KEY,
+name varchar2(105) not null,
+description varchar2(105)
+);
+
+SELECT * FROM departments_tbl;
+
+-- ???????? ??????? ????? 
+--
+--INSERT INTO departments_tbl
+--(name, description)
+--VALUES ('Customer Experience', 'Take care of our customers.');
+--
+--INSERT INTO departments_tbl
+--(name)
+--VALUES ('Customer Lifecycle Solutions Analytics');
+--
+--INSERT INTO departments_tbl
+--(name, description)
+--VALUES ('Marketing', 'Presenting our bank in social media.');
+
+
+
+create table managers_tbl
+(
+id number GENERATED as IDENTITY PRIMARY KEY,
+first_name varchar2(105) not null,
+last_name varchar2(105) not null
+);
+
+SELECT * FROM managers_tbl;
+
+
+--???????? ??????? ?????
+--
+--INSERT INTO managers_tbl
+--(first_name, last_name)
+--VALUES ('Mirin', 'Montis');
+--
+--INSERT INTO managers_tbl
+--(first_name, last_name)
+--VALUES ('Vanq', 'Jeleva');
+--
+--INSERT INTO managers_tbl
+--(first_name, last_name)
+--VALUES ('Georgi', 'Mihailov');
+--
+--INSERT INTO managers_tbl
+--(first_name, last_name)
+--VALUES ('Zoq', 'Koleva');
+
+
+
+
+create table customers_tbl
+(
+customer_id number GENERATED as IDENTITY PRIMARY KEY,
+account_number number not null,
+first_name varchar2(105) not null,
+last_name varchar2(105) not null,
+addl_name varchar2(105),
+address varchar2(255) not null,
+creation_date date default sysdate not null,
+phone varchar2(30) not null,
+email varchar2(30) not null
+);
+
+SELECT * FROM customers_tbl
+
+ALTER TABLE customers_tbl
+ADD CONSTRAINT customer_must_have_at_least_1_account_fk
+FOREIGN KEY (account_number) 
+REFERENCES bank_account_tbl(account_number)
+
+--???????? ??????? ?????
+--
+--INSERT INTO CUSTOMERS_TBL
+--(account_number,first_name,last_name,addl_name,address,
+--phone,email)
+--VALUES (213513512522,'Ivan', 'Georgiev', 'Ivanov', 'New York',
+--'2314','Ivan@abv.bg');
+--
+--INSERT INTO CUSTOMERS_TBL
+--(account_number,first_name,last_name,addl_name,address,
+--phone,email)
+--VALUES (215565454454,'Vasil', 'Vasilev', 'Petrov', 'New York',
+--'2314','Vasko@abv.bg');
+--
+--INSERT INTO CUSTOMERS_TBL
+--(account_number,first_name,last_name,addl_name,address,
+--phone,email)
+--VALUES (123546887568,'Angel', 'Georgiev', 'Ivanov', 'New York',
+--'2314','meil4e@abv.bg');
+--
+--INSERT INTO CUSTOMERS_TBL
+--(account_number,first_name,last_name,addl_name,address,
+--phone,email)
+--VALUES (883546887568,'Angel', 'Georgiev', 'Ivanov', 'New York',
+--'2314','meil4e@abv.bg');
+
+
+create table bank_account_tbl
+(
+account_number number(16) PRIMARY KEY,
+amount decimal(20,2) not null,
+currency varchar(3) default 'BGN'
+);
+
+SELECT * FROM bank_account_tbl
+
+--???????? ??????? ?????
+--
+--INSERT INTO bank_account_tbl
+--(account_number,amount,currency)
+--VALUES (213513512522,3552.556,'EUR');
+--
+--INSERT INTO bank_account_tbl
+--(account_number,amount)
+--VALUES (215565454454,5222.766);
+--
+--INSERT INTO bank_account_tbl
+--(account_number,amount,currency)
+--VALUES (123546887568,250322.966,'BTC');
+--
+--INSERT INTO bank_account_tbl
+--(account_number,amount)
+--VALUES (883546887568,25322.966);
+
+
+
+
+---------------------------------- Bussiness part 1 --------------------------------------
+
+-- 1. Create a listing of the names of all departments in the bank
+
+select name from departments_tbl;
+
+-- 2. To create the listing of the monthly remuneration of all
+--employees, it is necessary to include in the listing the two names of the
+--employee and his/her salary
+
+alter table employees_tbl
+add salary number;
+
+update employees_tbl
+set salary = 1500
+where id = 1;
+
+update employees_tbl
+set salary = 1300
+where id = 2;
+
+update employees_tbl
+set salary = 2000
+where id = 4;
+
+update employees_tbl
+set salary = 2200
+where id = 6;
+
+update employees_tbl
+set salary = 2100
+where id = 7;
+
+update employees_tbl
+set salary = 1800
+where id = 8;
+
+select first_name, last_name, salary from employees_tbl;
+
+-- 3. To create a listing of all employees in the bank in the listing
+--must be present, the two names of the employees and the newly generated
+--emails to consist of concacated first and second names of the
+--the employee separated by a point. The names of the employees must be
+--lowercase in the email. The company domain is
+--bankoftomarow.bg
+
+select first_name, last_name, lower(first_name || '.' || last_name || '@bankoftomarow.bg') as bot_email
+from employees_tbl;
+
+-- 4. ???????? ?????? ????????? ????? ??????? ???????? ???? ??????
+--?????????. ?????? ????????? ?? ?????? ????? ??????? ? ?????????? ??
+--5 ??????.
+
+select * from employees_tbl
+where creation_date < add_months(sysdate, -60);
+
+--5. Find all employees whose first names start with the letter S
+
+select * from employees_tbl
+where upper(first_name) like 'P%';
+
+--6. Find all foreign employees. Foreign are these
+--employees who were not born in Bulgaria.
+
+alter table employees_tbl
+add country varchar(30);
+
+
+update employees_tbl
+set country = 'England'
+where id = 1;
+
+update employees_tbl
+set country = 'Bulgaria'
+where id = 2;
+
+update employees_tbl
+set country = 'Bulgaria'
+where id = 4;
+
+update employees_tbl
+set country = 'Bulgaria'
+where id = 6;
+
+update employees_tbl
+set country = 'Bulgaria'
+where id = 7;
+
+update employees_tbl
+set country = 'Germany'
+where id = 8;
+
+update employees_tbl
+set country = 'Italy'
+where id = 9;
+
+select * from employees_tbl
+where country = 'Bulgaria';
+
+
+
+select * from employees_tbl
+where country <> 'Bulgaria';
+
+
+-- 7. Find all employees whose names (first/ second or
+--additionally contain the letter I)
+
+select * from employees_tbl
+where upper(first_name) like '%I%' or upper(addl_name)like '%I%' or upper(last_name) like '%I%';
+
+
+
+
+---------------------------------- Bussiness part 2 --------------------------------------
+
+
+--To implement a table for storing the data on the movement of between departments.
+CREATE TABLE EMPLOYEES_HISTORY
+(
+change_id number GENERATED as IDENTITY PRIMARY KEY,
+emp_id number,
+column_name varchar2(105),
+new_value varchar2(105),
+old_value varchar2(105),
+changed_by varchar2(105),
+changed_date date default sysdate
+);
+
+SELECT * FROM EMPLOYEES_HISTORY
+
+
+CREATE OR REPLACE TRIGGER EMPLOYEES_DEPARTMENT_CHANGED
+AFTER UPDATE
+   ON EMPLOYEES_TBL
+   FOR EACH ROW
+
+BEGIN
+
+IF :old.department <> :new.department THEN
+    INSERT INTO employees_history
+    ( emp_id,
+    column_name,
+    old_value,
+    new_value,
+    changed_by)
+    VALUES
+    ( :new.id,
+      'DEPARTMENT',
+      :old.department,
+      :new.department,
+      user);
+END IF;
+
+END;
+
+SELECT * FROM EMPLOYEES_TBL
+
+
+-- 1. To implement sample inserts in this table
+
+update employees_tbl 
+set department = 1
+where id = 1;
+
+update employees_tbl 
+set department = 1
+where id = 2;
+
+update employees_tbl 
+set department = 2
+where id = 4;
+
+update employees_tbl 
+set department = 3
+where id = 1;
+
+update employees_tbl 
+set department = 1
+where id = 8;
+
+update employees_tbl 
+set department = 3
+where id = 2;
+
+update employees_tbl 
+set department = 1
+where id = 4;
+
+update employees_tbl 
+set department = 3
+where id = 4;
+
+
+-- 2. To implement listing of employees who have worked more
+--by one department within the last two months 
+
+select emp_id, count(emp_id) as "Number of changes"
+from employees_history
+where changed_date > add_months(sysdate, -2)
+group by emp_id
+having count(emp_id)>1;
+
+
+update employees_history
+set changed_date = '12-FEB-22'
+where change_id = 3;
+
+
+-- 3. To implement listing of employees who have worked only in the
+--department since they have been part of the company's structure.
+
+SELECT *
+FROM employees_tbl
+LEFT JOIN employees_history
+ON employees_tbl.id=employees_history.emp_id
+WHERE employees_history.emp_id IS NULL
+
+
+
+---------------------------------- Bussiness part 3 --------------------------------------
+
+
+
+
+-- 1. Find all employees who have a salary in the range 2000 – 3000
+
+
+SELECT * FROM employees_tbl 
+WHERE salary > 2000 and salary < 3000
+
+
+-- 2. Find all employees who receive 2500/ 3000/ 3500 / 5000
+
+SELECT * FROM employees_tbl
+WHERE salary = 2500 or salary = 3000 or salary = 3500 or salary = 5000
+
+-- 3. Find all employees who don't have a manager
+
+SELECT * FROM employees_tbl
+WHERE manager_id is null
+
+-- 4. Find all senior staff who receive a salary higher from 5,000 Arrange
+--them in reverse alphabetical order, considering the their first name.
+
+select * from employees_tbl
+where creation_date < add_months(sysdate, -60) and salary > 5000
+order by first_name DESC;
+
+
+-- 5. Find the five highest-paid employees in each department.
+--Group them by department.
+
+SELECT name,first_name,salary
+FROM employees_tbl
+INNER JOIN departments_tbl
+ON employees_tbl.department=departments_tbl.id 
+WHERE rownum <= 5
+GROUP BY name,first_name,salary
+ORDER BY salary DESC
+
+
+
+-- 6. Find the department or departments where/where employees
+--receive the lowest salary.
+
+SELECT name,first_name,salary
+FROM employees_tbl
+INNER JOIN departments_tbl 
+ON employees_tbl.department=departments_tbl.id 
+WHERE rownum <> 0
+ORDER BY salary ASC
+
+
+
+-- 7.Find the average salary in each department, group by average
+--salary and department
+
+SELECT name,AVG(salary) AS "Salary_Avg"
+FROM employees_tbl
+INNER JOIN departments_tbl 
+ON employees_tbl.department=departments_tbl.id 
+WHERE name IS NOT NULL
+GROUP BY name,SalaryAvg;
+
+
+
+
+
+---------------------------------- Bussiness part 4 --------------------------------------
+
+-- 1. Bring out all customers who have accounts in currency. (different
+--from BGN )
+
+SELECT * FROM 
+customers_tbl
+join bank_account_tbl
+on customers_tbl.account_number=bank_account_tbl.account_number
+where bank_account_tbl.currency <> 'BGN';
+
+-- 2. Bring out all customers who have zero-cash accounts
+--Balance. Completely empty.
+
+
+ALTER TABLE bank_account_tbl 
+MODIFY amount decimal(20,2) default 0;
+
+SELECT * FROM 
+customers_tbl
+join bank_account_tbl
+on customers_tbl.account_number=bank_account_tbl.account_number
+where bank_account_tbl.amount = 0;
+
+
+
+-- 3. Add a name to each customer's account. The name of the
+--account is the name of the customer followed by the word account and
+--currency of the account. Update all customers.
+
+alter table bank_account_tbl 
+add account_name varchar(105)
+
+
+MERGE INTO bank_account_tbl 
+USING customers_tbl
+ON (bank_account_tbl.account_number = customers_tbl.account_number)
+WHEN MATCHED THEN 
+UPDATE SET account_name = customers_tbl.first_name || 'BankAccount' || bank_account_tbl.currency
+
+
+
+
+---------------------------------- Functional part --------------------------------------
+-- CRUD Modules for Clients 
+ 
+
+CREATE OR REPLACE PROCEDURE createCustomer 
+(
+account_number IN customers_tbl.account_number%TYPE,
+first_name IN customers_tbl.first_name%TYPE,
+last_name IN customers_tbl.last_name%TYPE,
+addl_name IN customers_tbl.addl_name%TYPE,
+address IN customers_tbl.address%TYPE,
+phone IN customers_tbl.phone%TYPE,
+email IN customers_tbl.email%TYPE
+)
+IS
+BEGIN 
+  INSERT INTO customers_tbl(account_number,first_name,last_name,addl_name,address,phone,email)
+  VALUES(account_number,first_name,last_name,addl_name,address,phone,email);
+  dbms_output.put_line('Customer Added!');
+END createCustomer;
+
+execute createCustomer();
+
+
+
+CREATE OR REPLACE PROCEDURE editCustomer
+(
+customer_id IN customers_tbl.customer_id%TYPE,
+account_number IN customers_tbl.account_number%TYPE,
+first_name IN customers_tbl.first_name%TYPE,
+last_name IN customers_tbl.last_name%TYPE,
+addl_name IN customers_tbl.addl_name%TYPE,
+address IN customers_tbl.address%TYPE,
+phone IN customers_tbl.phone%TYPE,
+email IN customers_tbl.email%TYPE
+)
+IS
+BEGIN 
+  UPDATE customers_tbl
+    SET 
+        account_number = account_number,
+        first_name = first_name,
+        last_name = last_name,
+        addl_name = addl_name,
+        address = address,
+        phone = phone,
+        email = email
+        WHERE customer_id = customer_id;
+    dbms_output.put_line('Customer Updated!');
+END editCustomer;
+
+
+
+CREATE OR REPLACE PROCEDURE deleteCustomer 
+(customer_id IN customers_tbl.customer_id%TYPE)
+IS
+BEGIN 
+  DELETE FROM customers_tbl
+  WHERE customer_id = customer_id;
+    dbms_output.put_line('Customer Deleted!');
+END deleteCustomer;
+
+
+
+
+
+
+
+-- CRUD Modules for Bank Accounts 
+
+
+
+CREATE OR REPLACE PROCEDURE createBankAccount 
+(
+account_number IN bank_account_tbl.account_number%TYPE,
+amount IN bank_account_tbl.amount%TYPE,
+currency IN bank_account_tbl.currency%TYPE
+)
+IS
+BEGIN 
+  INSERT INTO bank_account_tbl(account_number,amount,currency)
+  VALUES(account_number,amount,currency);
+  dbms_output.put_line('Bank Account Added!');
+END createBankAccount;
+
+
+
+
+CREATE OR REPLACE PROCEDURE editBankAccount
+(
+account_number IN bank_account_tbl.account_number%TYPE,
+amount IN bank_account_tbl.amount%TYPE,
+currency IN bank_account_tbl.currency%TYPE
+)
+IS
+BEGIN 
+  UPDATE bank_account_tbl
+    SET 
+        amount = amount,
+        currency = currency
+        WHERE account_number = account_number;
+    dbms_output.put_line('Bank Account Updated!');
+END editBankAccount;
+
+
+
+CREATE OR REPLACE PROCEDURE deleteBankAccount 
+(account_number IN bank_account_tbl.account_number%TYPE)
+IS
+BEGIN 
+  DELETE FROM bank_account_tbl
+  WHERE account_number = account_number;
+    dbms_output.put_line('Bank Account Deleted!');
+END deleteBankAccount;
+
+
+
+
+
+
+
+
+
+---------------------------------- Modules must be organized in packages --------------------------------------
+
+
+CREATE OR REPLACE PACKAGE manage_Customers_CRUD IS
+PROCEDURE createCustomer
+(
+account_number IN customers_tbl.account_number%TYPE,
+first_name IN customers_tbl.first_name%TYPE,
+last_name IN customers_tbl.last_name%TYPE,
+addl_name IN customers_tbl.addl_name%TYPE,
+address IN customers_tbl.address%TYPE,
+phone IN customers_tbl.phone%TYPE,
+email IN customers_tbl.email%TYPE
+);
+PROCEDURE editCustomer
+(
+customer_id IN customers_tbl.customer_id%TYPE,
+account_number IN customers_tbl.account_number%TYPE,
+first_name IN customers_tbl.first_name%TYPE,
+last_name IN customers_tbl.last_name%TYPE,
+addl_name IN customers_tbl.addl_name%TYPE,
+address IN customers_tbl.address%TYPE,
+phone IN customers_tbl.phone%TYPE,
+email IN customers_tbl.email%TYPE
+);
+PROCEDURE deleteCustomer
+(
+customer_id IN customers_tbl.customer_id%TYPE
+);
+END manage_Customers_CRUD;
+
+
+CREATE OR REPLACE PACKAGE BODY manage_Customers_CRUD IS
+PROCEDURE createCustomer 
+(
+account_number IN customers_tbl.account_number%TYPE,
+first_name IN customers_tbl.first_name%TYPE,
+last_name IN customers_tbl.last_name%TYPE,
+addl_name IN customers_tbl.addl_name%TYPE,
+address IN customers_tbl.address%TYPE,
+phone IN customers_tbl.phone%TYPE,
+email IN customers_tbl.email%TYPE
+)
+IS
+BEGIN 
+  INSERT INTO customers_tbl(account_number,first_name,last_name,addl_name,address,phone,email)
+  VALUES(account_number,first_name,last_name,addl_name,address,phone,email);
+  dbms_output.put_line('Customer Added!');
+END createCustomer;
+
+PROCEDURE editCustomer
+(
+customer_id IN customers_tbl.customer_id%TYPE,
+account_number IN customers_tbl.account_number%TYPE,
+first_name IN customers_tbl.first_name%TYPE,
+last_name IN customers_tbl.last_name%TYPE,
+addl_name IN customers_tbl.addl_name%TYPE,
+address IN customers_tbl.address%TYPE,
+phone IN customers_tbl.phone%TYPE,
+email IN customers_tbl.email%TYPE
+)
+IS
+BEGIN 
+  UPDATE customers_tbl
+    SET 
+        account_number = account_number,
+        first_name = first_name,
+        last_name = last_name,
+        addl_name = addl_name,
+        address = address,
+        phone = phone,
+        email = email
+        WHERE customer_id = customer_id;
+    dbms_output.put_line('Customer Updated!');
+END editCustomer;
+
+PROCEDURE deleteCustomer 
+(customer_id IN customers_tbl.customer_id%TYPE)
+IS
+BEGIN 
+  DELETE FROM customers_tbl
+  WHERE customer_id = customer_id;
+    dbms_output.put_line('Customer Deleted!');
+END deleteCustomer;
+
+END;
+
+
+
+
+
+
+
+
+CREATE OR REPLACE PACKAGE manage_BankAccount_CRUD IS
+PROCEDURE createBankAccount
+(
+account_number IN customers_tbl.account_number%TYPE,
+amount IN bank_account_tbl.amount%TYPE,
+currency IN bank_account_tbl.currency%TYPE
+);
+PROCEDURE editBankAccount
+(
+account_number IN bank_account_tbl.account_number%TYPE,
+amount IN bank_account_tbl.amount%TYPE,
+currency IN bank_account_tbl.currency%TYPE
+);
+
+PROCEDURE deleteBankAccount
+(
+account_number IN bank_account_tbl.account_number%TYPE
+);
+END manage_BankAccount_CRUD;
+
+
+CREATE OR REPLACE PACKAGE BODY manage_BankAccount_CRUD IS
+PROCEDURE createBankAccount 
+(
+account_number IN bank_account_tbl.account_number%TYPE,
+amount IN bank_account_tbl.amount%TYPE,
+currency IN bank_account_tbl.currency%TYPE
+)
+IS
+BEGIN 
+  INSERT INTO bank_account_tbl(account_number,amount,currency)
+  VALUES(account_number,amount,currency);
+  dbms_output.put_line('Bank Account Added!');
+END createBankAccount;
+
+PROCEDURE editBankAccount
+(
+account_number IN bank_account_tbl.account_number%TYPE,
+amount IN bank_account_tbl.amount%TYPE,
+currency IN bank_account_tbl.currency%TYPE
+)
+IS
+BEGIN 
+  UPDATE bank_account_tbl
+    SET 
+        amount = amount,
+        currency = currency
+        WHERE account_number = account_number;
+    dbms_output.put_line('Bank Account Updated!');
+END editBankAccount;
+
+PROCEDURE deleteBankAccount 
+(account_number IN bank_account_tbl.account_number%TYPE)
+IS
+BEGIN 
+  DELETE FROM bank_account_tbl
+  WHERE account_number = account_number;
+    dbms_output.put_line('Bank Account Deleted!');
+END deleteBankAccount;
+END;
+
+
+
+
